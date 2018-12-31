@@ -1,4 +1,4 @@
-((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/cv.js"],{
+((window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/portfolio.js"],{
 
 /***/ "./components/layouts/BaseLayout.jsx":
 /*!*******************************************!*\
@@ -90,7 +90,6 @@ function (_Component) {
   _createClass(Header, [{
     key: "render",
     value: function render() {
-      debugger;
       var title = this.props.title;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
         __source: {
@@ -6538,6 +6537,18 @@ module.exports = __webpack_require__(/*! ./dist/lib/link */ "./node_modules/next
 
 /***/ }),
 
+/***/ "./node_modules/next/router.js":
+/*!*************************************!*\
+  !*** ./node_modules/next/router.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./dist/lib/router */ "./node_modules/next/dist/lib/router/index.js")
+
+
+/***/ }),
+
 /***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
@@ -9997,10 +10008,10 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./pages/cv.jsx":
-/*!**********************!*\
-  !*** ./pages/cv.jsx ***!
-  \**********************/
+/***/ "./pages/portfolio.jsx":
+/*!*****************************!*\
+  !*** ./pages/portfolio.jsx ***!
+  \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -10009,7 +10020,9 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_layouts_BaseLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/layouts/BaseLayout */ "./components/layouts/BaseLayout.jsx");
-var _jsxFileName = "/Users/chrisshaw/Desktop/nextjs-react-node/portfolio-shaw/pages/cv.jsx";
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/router */ "./node_modules/next/router.js");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
+var _jsxFileName = "/Users/chrisshaw/Desktop/nextjs-react-node/portfolio-shaw/pages/portfolio.jsx";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -10032,40 +10045,47 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Cv =
+
+var Portfolio =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(Cv, _Component);
+  _inherits(Portfolio, _Component);
 
-  function Cv() {
-    _classCallCheck(this, Cv);
+  function Portfolio() {
+    _classCallCheck(this, Portfolio);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Cv).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Portfolio).apply(this, arguments));
   }
 
-  _createClass(Cv, [{
+  _createClass(Portfolio, [{
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_layouts_BaseLayout__WEBPACK_IMPORTED_MODULE_1__["default"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 7
+          lineNumber: 9
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 8
+          lineNumber: 10
         },
         __self: this
-      }, "I am Cv page"));
+      }, "I am Portfolio page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 13
+        },
+        __self: this
+      }, this.props.router.query.title));
     }
   }]);
 
-  return Cv;
+  return Portfolio;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Cv);
+/* harmony default export */ __webpack_exports__["default"] = (Object(next_router__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Portfolio));
     (function (Component, route) {
       if(!Component) return
       if (false) {}
@@ -10082,21 +10102,21 @@ function (_Component) {
           next.router.update(r, Component)
         }
       }
-    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/cv")
+    })(typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__.default : (module.exports.default || module.exports), "/portfolio")
   
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ 3:
-/*!****************************!*\
-  !*** multi ./pages/cv.jsx ***!
-  \****************************/
+/***/ 5:
+/*!***********************************!*\
+  !*** multi ./pages/portfolio.jsx ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__NEXT_REGISTER_PAGE('/cv', function() {
-module.exports = __webpack_require__(/*! ./pages/cv.jsx */"./pages/cv.jsx");
+__NEXT_REGISTER_PAGE('/portfolio', function() {
+module.exports = __webpack_require__(/*! ./pages/portfolio.jsx */"./pages/portfolio.jsx");
 
 return { page: module.exports.default }});
 
@@ -10113,5 +10133,5 @@ module.exports = dll_831a3634f66cb1dada0c;
 
 /***/ })
 
-},[[3,"static/runtime/webpack.js","styles"]]]));;
-//# sourceMappingURL=cv.js.map
+},[[5,"static/runtime/webpack.js","styles"]]]));;
+//# sourceMappingURL=portfolio.js.map
