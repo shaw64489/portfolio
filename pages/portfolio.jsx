@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
+import BasePage from '../components/BasePage';
 import { withRouter } from 'next/router';
 import axios from 'axios';
 
-
 class Portfolio extends Component {
-
   static async getInitialProps({ query }) {
-    
     const portfolioId = query.id;
     let portfolio = {};
 
@@ -24,18 +22,17 @@ class Portfolio extends Component {
   }
 
   render() {
-
     const { portfolio } = this.props;
-    
+
     return (
-        <BaseLayout>
-            <h1>
-            { portfolio.title }
-            </h1>
-            <p>Body: { portfolio.body }</p>
-            <p>ID: { portfolio.id }</p>
-        </BaseLayout>
-    )
+      <BaseLayout>
+        <BasePage>
+          <h1>{portfolio.title}</h1>
+          <p>Body: {portfolio.body}</p>
+          <p>ID: {portfolio.id}</p>
+        </BasePage>
+      </BaseLayout>
+    );
   }
 }
 

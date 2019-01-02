@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
+import BasePage from '../components/BasePage';
 
 class Cv extends Component {
   render() {
     return (
-        <BaseLayout>
-            <h1>
-            I am Cv page
-            </h1>
-        </BaseLayout>
-    )
+      <BaseLayout>
+        <BasePage>
+          <h1>I am Cv page</h1>
+        </BasePage>
+      </BaseLayout>
+    );
   }
 }
 
