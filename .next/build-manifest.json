@@ -13,11 +13,19 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/blogs": [
+    "/callback": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/index": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
     "/about": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]
