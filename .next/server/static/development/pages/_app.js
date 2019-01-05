@@ -385,18 +385,16 @@ function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                debugger; // store jwkey set - need to extract from res
-
-                _context.next = 3;
+                _context.next = 2;
                 return axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('https://shaw64489.auth0.com/.well-known/jwks.json');
 
-              case 3:
+              case 2:
                 res = _context.sent;
                 //extract
                 jwks = res.data;
                 return _context.abrupt("return", jwks);
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -422,50 +420,62 @@ function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!token) {
-                  _context2.next = 19;
+                  _context2.next = 21;
                   break;
                 }
 
+                //decode token - complete to access header parameter
                 decodedToken = jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default.a.decode(token, {
                   complete: true
-                }); //get jw ket set
+                });
 
-                _context2.next = 4;
-                return this.getJWKS();
-
-              case 4:
-                jwks = _context2.sent;
-                //get first key
-                jwk = jwks.keys[0]; //build certificate
-
-                cert = jwk.x5c[0];
-                cert = cert.match(/.{1,64}/g).join('\n');
-                cert = "-----BEGIN CERTIFICATE-----\n".concat(cert, "\n-----END CERTIFICATE-----\n");
-
-                if (!(jwk.kid === decodedToken.header.kid)) {
-                  _context2.next = 19;
+                if (decodedToken) {
+                  _context2.next = 4;
                   break;
                 }
 
-                _context2.prev = 10;
+                return _context2.abrupt("return", undefined);
+
+              case 4:
+                _context2.next = 6;
+                return this.getJWKS();
+
+              case 6:
+                jwks = _context2.sent;
+                jwk = jwks.keys[0]; // BUILD CERTIFICATE
+                //extract certificate
+
+                cert = jwk.x5c[0]; //match reg exp
+                //join elements of array (64 string chars) with new line
+
+                cert = cert.match(/.{1,64}/g).join('\n'); //create new string with certificate
+
+                cert = "-----BEGIN CERTIFICATE-----\n".concat(cert, "\n-----END CERTIFICATE-----\n"); //check if jwk key id is same as decoded token
+
+                if (!(jwk.kid === decodedToken.header.kid)) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                _context2.prev = 12;
                 verifiedToken = jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default.a.verify(token, cert);
-                expiresAt = decodedToken.exp * 1000;
+                expiresAt = verifiedToken.exp * 1000;
                 return _context2.abrupt("return", verifiedToken && new Date().getTime() < expiresAt ? verifiedToken : undefined);
 
-              case 16:
-                _context2.prev = 16;
-                _context2.t0 = _context2["catch"](10);
+              case 18:
+                _context2.prev = 18;
+                _context2.t0 = _context2["catch"](12);
                 return _context2.abrupt("return", undefined);
 
-              case 19:
+              case 21:
                 return _context2.abrupt("return", undefined);
 
-              case 20:
+              case 22:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[10, 16]]);
+        }, _callee2, this, [[12, 18]]);
       }));
 
       function verifyToken(_x) {
@@ -520,7 +530,7 @@ function () {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!req.headers.cookie) {
-                  _context4.next = 10;
+                  _context4.next = 9;
                   break;
                 }
 
@@ -536,19 +546,18 @@ function () {
                 return _context4.abrupt("return", undefined);
 
               case 4:
-                ;
                 token = tokenCookie.split('=')[1];
-                _context4.next = 8;
+                _context4.next = 7;
                 return this.verifyToken(token);
 
-              case 8:
+              case 7:
                 verifiedToken = _context4.sent;
                 return _context4.abrupt("return", verifiedToken);
 
-              case 10:
+              case 9:
                 return _context4.abrupt("return", undefined);
 
-              case 11:
+              case 10:
               case "end":
                 return _context4.stop();
             }

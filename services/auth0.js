@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 class Auth0 {
-
   accessToken;
   idToken;
   expiresAt;
@@ -41,10 +40,11 @@ class Auth0 {
   }
 
   setSession(authResult) {
-    
     // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    
+    const expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime()
+    );
+
     Cookies.set('user', authResult.idTokenPayload);
     Cookies.set('jwt', authResult.idToken);
     Cookies.set('expiresAt', expiresAt);
@@ -56,28 +56,28 @@ class Auth0 {
     Cookies.remove('expiresAt');
 
     this.auth0.logout({
-        returnTo: '',
-        clientID: 'hjyUjniJ7vjHUU4wehG2SsHoSPYsLW10'
-    })
+      returnTo: '',
+      clientID: 'hjyUjniJ7vjHUU4wehG2SsHoSPYsLW10'
+    });
   }
 
   login() {
     this.auth0.authorize();
   }
 
-//   isAuthenticated() {
-//     // Check whether the current time is past the
-//     // access token's expiry time
-//     const expiresAt = Cookies.getJSON('expiresAt');
-//     return new Date().getTime() < expiresAt;
-//   }
+  //   isAuthenticated() {
+  //     // Check whether the current time is past the
+  //     // access token's expiry time
+  //     const expiresAt = Cookies.getJSON('expiresAt');
+  //     return new Date().getTime() < expiresAt;
+  //   }
 
   // get jw key set
   async getJWKS() {
-
-    debugger;
     // store jwkey set - need to extract from res
-    const res = await axios.get('https://shaw64489.auth0.com/.well-known/jwks.json');
+    const res = await axios.get(
+      'https://shaw64489.auth0.com/.well-known/jwks.json'
+    );
 
     //extract
     const jwks = res.data;
@@ -86,56 +86,69 @@ class Auth0 {
   }
 
   async verifyToken(token) {
-      if (token) {
-        const decodedToken = jwt.decode(token, { complete: true });
-        //get jw ket set
-        const jwks = await this.getJWKS();
-        //get first key
-        const jwk = jwks.keys[0];
-        //build certificate
-        let cert = jwk.x5c[0];
-        cert = cert.match(/.{1,64}/g).join('\n');
-        cert = `-----BEGIN CERTIFICATE-----\n${cert}\n-----END CERTIFICATE-----\n`;
+    if (token) {
+      //decode token - complete to access header parameter
+      const decodedToken = jwt.decode(token, { complete: true });
 
-        if (jwk.kid === decodedToken.header.kid) {
-            try {
-                const verifiedToken = jwt.verify(token, cert);
-                const expiresAt = decodedToken.exp * 1000;
+      if (!decodedToken) {
+        return undefined;
+      }
 
-                return (verifiedToken && new Date().getTime() < expiresAt) ? verifiedToken : undefined;
+      const jwks = await this.getJWKS();
+      const jwk = jwks.keys[0];
 
-            } catch (err) {
-                return undefined;
-            }
+      // BUILD CERTIFICATE
+      //extract certificate
+      let cert = jwk.x5c[0];
+      //match reg exp
+      //join elements of array (64 string chars) with new line
+      cert = cert.match(/.{1,64}/g).join('\n');
+      //create new string with certificate
+      cert = `-----BEGIN CERTIFICATE-----\n${cert}\n-----END CERTIFICATE-----\n`;
+
+      //check if jwk key id is same as decoded token
+      if (jwk.kid === decodedToken.header.kid) {
+        try {
+          const verifiedToken = jwt.verify(token, cert);
+          const expiresAt = verifiedToken.exp * 1000;
+
+          return verifiedToken && new Date().getTime() < expiresAt
+            ? verifiedToken
+            : undefined;
+        } catch (err) {
+          return undefined;
         }
       }
-      return undefined;
+    }
+    return undefined;
   }
 
   //client side authentication
   async clientAuth() {
-      const token = Cookies.getJSON('jwt');
-      const verifiedToken = await this.verifyToken(token);
-
-      return verifiedToken;
+    const token = Cookies.getJSON('jwt');
+    const verifiedToken = await this.verifyToken(token);
+    
+    return verifiedToken;
   }
 
   async serverAuth(req) {
     if (req.headers.cookie) {
+      const tokenCookie = req.headers.cookie
+        .split(';')
+        .find(c => c.trim().startsWith('jwt='));
 
-        const tokenCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='));
+      if (!tokenCookie) {
+        return undefined;
+      }
 
-        if (!tokenCookie) { return undefined};
+      const token = tokenCookie.split('=')[1];
+      const verifiedToken = await this.verifyToken(token);
 
-        const token = tokenCookie.split('=')[1];
-        const verifiedToken = await this.verifyToken(token);
-
-        return verifiedToken;
+      return verifiedToken;
     }
 
     return undefined;
   }
-
 }
 
 const authClient = new Auth0();
