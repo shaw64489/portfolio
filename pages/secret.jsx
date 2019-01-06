@@ -3,14 +3,15 @@ import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 
 import withAuth from '../components/hoc/withAuth';
-import axios from 'axios';
+import { getSecretData, getSecretDataServer } from '../actions';
 
 class Secret extends Component {
 
- static getInitialProps() {
+ static async getInitialProps({ req }) {
 
-    const superSecretValue = 'Super Secret Value' 
-    return { superSecretValue };
+    const anotherSecretData = await getSecretData(req);
+
+    return { anotherSecretData };
 }
 
 constructor(props) {
@@ -21,8 +22,7 @@ constructor(props) {
 }
 
 async componentDidMount() {
-    const res = await axios.get('/api/v1/secret');
-    const secretData = res.data;
+    const secretData = await getSecretData();
 
     this.setState({
         secretData
@@ -64,4 +64,4 @@ displaySecretData() {
   }
 }
 
-export default withAuth(Secret);
+export default withAuth()(Secret);

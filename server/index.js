@@ -12,38 +12,45 @@ const app = next({ dev });
 const handle = routes.getRequestHandler(app);
 
 const secretData = [
-    {
-        title: 'Secret Data 1',
-        description: 'Plans how to build spaceship'
-    },
-    {
-        title: 'Secret Data 2',
-        description: 'My secret passwords'
-    }
-]
+  {
+    title: 'Secret Data 1',
+    description: 'Plans how to build spaceship'
+  },
+  {
+    title: 'Secret Data 2',
+    description: 'My secret passwords'
+  }
+];
 
 //standard server setup for next app
-app.prepare()
-.then(() => {
-  //pass server to next app
-  const server = express();
+app
+  .prepare()
+  .then(() => {
+    //pass server to next app
+    const server = express();
 
-  server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
+    server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
+      return res.json(secretData);
+    });
 
-    return res.json(secretData);
-  });
+    //handle all other pages
+    server.get('*', (req, res) => {
+      return handle(req, res);
+    });
 
-  //handle all other pages
-  server.get('*', (req, res) => {
-    return handle(req, res);
-  });
+    //token authorization middleware - error handling 
+    server.use(function(err, req, res, next) {
+      if (err.name === 'UnauthorizedError') {
+        res.status(401).send({title: 'Unauthorized', detail: 'Unauthorized access'});
+      }
+    });
 
-  server.use(handle).listen(3000, (err) => {
-    if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
+    server.use(handle).listen(3000, err => {
+      if (err) throw err;
+      console.log('> Ready on http://localhost:3000');
+    });
   })
-})
-.catch((ex) => {
-  console.error(ex.stack);
-  process.exit(1);
-});
+  .catch(ex => {
+    console.error(ex.stack);
+    process.exit(1);
+  });
