@@ -1,6 +1,8 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
+const namespace = 'http://localhost:3000/'
+
 //MIDDLEWARE
 //checking token validity
 //similar to auth0 verifyToken
@@ -17,3 +19,16 @@ exports.checkJWT = jwt({
   issuer: 'https://shaw64489.auth0.com/',
   algorithms: [ 'RS256' ]
 });
+
+exports.checkRole = (role) => {
+  return (req, res, next) => {
+    const user = req.user;
+
+    //user is authorized
+    if (user && (user[namespace + 'role'] === role)) {
+      next();
+    } else {
+      return res.status(401).send({title: 'Not authorized', detail: 'You are not authorized to access data'})
+    }
+  }
+}
