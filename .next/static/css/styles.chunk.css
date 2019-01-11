@@ -193,8 +193,12 @@ body {
 .absolute {
   position: absolute; }
 
+.error {
+  font-weight: 500;
+  color: #dd2c2c; }
+
 .base-page {
-  padding-top: 150px;
+  padding: 150px 0;
   color: #000;
   background-color: #ecedee;
   min-height: 100vh; }

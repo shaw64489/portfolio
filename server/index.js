@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+const mongoose = require('mongoose');
 const routes = require('../routes');
 
 //SERVICE
@@ -22,6 +23,17 @@ const secretData = [
   }
 ];
 
+//connect to db - will change pw
+mongoose
+  .connect(
+    'mongodb://cshaw:guitar1@ds255364.mlab.com:55364/portfolio-shaw-dev',
+    { useNewUrlParser: true }
+  )
+  .then(() => {
+    console.log('Database Connected');
+  })
+  .catch(err => console.err(err));
+
 //standard server setup for next app
 app
   .prepare()
@@ -33,19 +45,26 @@ app
       return res.json(secretData);
     });
 
-    server.get('/api/v1/onlysiteowner', authService.checkJWT, authService.checkRole('siteOwner'), (req, res) => {
-      return res.json(secretData);
-    });
+    server.get(
+      '/api/v1/onlysiteowner',
+      authService.checkJWT,
+      authService.checkRole('siteOwner'),
+      (req, res) => {
+        return res.json(secretData);
+      }
+    );
 
     //handle all other pages
     server.get('*', (req, res) => {
       return handle(req, res);
     });
 
-    //token authorization middleware - error handling 
+    //token authorization middleware - error handling
     server.use(function(err, req, res, next) {
       if (err.name === 'UnauthorizedError') {
-        res.status(401).send({title: 'Unauthorized', detail: 'Unauthorized access'});
+        res
+          .status(401)
+          .send({ title: 'Unauthorized', detail: 'Unauthorized access' });
       }
     });
 
