@@ -11,6 +11,12 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 //handle incoming request
 const handle = routes.getRequestHandler(app);
+//import DB configurations
+const config = require('./config');
+const bodyParser = require('body-parser');
+// Routes
+const bookRoutes = require('./routes/book');
+const portfolioRoutes = require('./routes/portfolio');
 
 const secretData = [
   {
@@ -24,9 +30,10 @@ const secretData = [
 ];
 
 //connect to db - will change pw
+// async () => (await mongoose.connect(config.DB_URI, { useNewUrlParser: true }))();
 mongoose
   .connect(
-    'mongodb://cshaw:guitar1@ds255364.mlab.com:55364/portfolio-shaw-dev',
+    config.DB_URI,
     { useNewUrlParser: true }
   )
   .then(() => {
@@ -40,6 +47,12 @@ app
   .then(() => {
     //pass server to next app
     const server = express();
+
+    //body parser middleware
+    server.use(bodyParser.json());
+
+    server.use('/api/v1/books', bookRoutes);
+    server.use('/api/v1/portfolios', portfolioRoutes);
 
     server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
       return res.json(secretData);
