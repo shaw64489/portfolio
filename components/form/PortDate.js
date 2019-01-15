@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import { FormGroup, Label, Button } from 'reactstrap';
+import { FormGroup, Label, Button, Alert } from 'reactstrap';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -83,7 +83,7 @@ class PortDate extends React.Component {
         )}
 
         {touched[field.name] && errors[field.name] && (
-          <div className="error">{errors[field.name]}</div>
+          <Alert color="danger">{errors[field.name]}</Alert>
         )}
       </FormGroup>
     );

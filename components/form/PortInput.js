@@ -1,4 +1,4 @@
-import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 const PortInput = ({
   label,
@@ -11,7 +11,7 @@ const PortInput = ({
     <Label>{label}</Label>
     <Input type={type} {...field} {...props} />
     {touched[field.name] && errors[field.name] && (
-      <div className="error">{errors[field.name]}</div>
+      <Alert color="danger">{errors[field.name]}</Alert>
       
     )}
   </FormGroup>

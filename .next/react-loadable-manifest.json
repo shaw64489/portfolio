@@ -1,12 +1,4 @@
 {
-  "./noop": [
-    {
-      "id": "./node_modules/next/dist/client/noop.js",
-      "name": "./node_modules/next/dist/client/noop.js",
-      "file": "static/chunks/0.js",
-      "publicPath": "static/chunks/0.js"
-    }
-  ],
   "bootstrap/dist/css/bootstrap.min.css": [
     {
       "id": "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -27,6 +19,12 @@
       "name": null,
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
+    },
+    {
+      "id": 10,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
     }
   ],
   "../styles/main.scss": [
@@ -35,6 +33,22 @@
       "name": "./styles/main.scss",
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "react-datepicker/dist/react-datepicker.css": [
+    {
+      "id": "./node_modules/react-datepicker/dist/react-datepicker.css",
+      "name": "./node_modules/react-datepicker/dist/react-datepicker.css",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "./noop": [
+    {
+      "id": "./node_modules/next/dist/client/noop.js",
+      "name": "./node_modules/next/dist/client/noop.js",
+      "file": "static/chunks/0.js",
+      "publicPath": "static/chunks/0.js"
     }
   ]
 }

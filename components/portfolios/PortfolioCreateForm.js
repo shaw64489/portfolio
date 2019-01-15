@@ -1,7 +1,7 @@
 // Render Prop
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'reactstrap';
 import PortInput from '../form/PortInput';
 import PortDate from '../form/PortDate';
 
@@ -15,9 +15,8 @@ const validateInputs = values => {
   //iterate over form input keys
   //destructurize array - key/value
   keyArray.forEach(([key, value]) => {
-
-    if(!values[key] && (values[key] === 'startDate' || values[key] === 'endDate')) {
-        errors[key] = `Field ${key} is required!`;
+    if (!values[key] && key !== 'endDate') {
+      errors[key] = `Field ${key} is required!`;
     }
   });
 
@@ -25,7 +24,7 @@ const validateInputs = values => {
   const endDate = values.endDate;
 
   if (startDate && endDate && endDate.isBefore(startDate)) {
-      errors.endDate = 'End Date cannot be before Start Date!';
+    errors.endDate = 'End Date cannot be before Start Date!';
   }
 
   return errors;
@@ -41,7 +40,7 @@ const INITIAL_VALUES = {
   endDate: ''
 };
 
-const PortfolioCreateForm = (props) => (
+const PortfolioCreateForm = props => (
   <div>
     <Formik
       initialValues={INITIAL_VALUES}
@@ -81,11 +80,7 @@ const PortfolioCreateForm = (props) => (
             component={PortInput}
           />
 
-          <Field
-            label="Start Date"
-            name="startDate"
-            component={PortDate}
-          />
+          <Field label="Start Date" name="startDate" component={PortDate} />
 
           <Field
             label="End Date"
@@ -93,8 +88,16 @@ const PortfolioCreateForm = (props) => (
             canBeDisabled={true}
             component={PortDate}
           />
+          {props.error && (
+            <Alert color="danger">{props.error}</Alert>
+          )}
 
-          <Button color="success" size="lg" type="submit" disabled={isSubmitting}>
+          <Button
+            color="success"
+            size="lg"
+            type="submit"
+            disabled={isSubmitting}
+          >
             Create
           </Button>
         </Form>

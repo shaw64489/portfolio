@@ -9,12 +9,12 @@ const authService = require('../services/auth');
 router.post('', authService.checkJWT, authService.checkRole('siteOwner'), portfolioController.savePortfolio);
 
 //get all Portfolios
-router.get('', authService.checkJWT, authService.checkRole('siteOwner'), portfolioController.getPortfolios);
+router.get('', portfolioController.getPortfolios);
 
-// //update Portfolio
-// router.patch('/:id', portfolioController.updatePortfolio);
+//update Portfolio
+router.patch('/:id', authService.checkJWT, authService.checkRole('siteOwner'),  portfolioController.updatePortfolio);
 
-// //delete Portfolio
-// router.delete('/:id', portfolioController.deletePortfolio);
+//delete Portfolio
+router.delete('/:id', authService.checkJWT, authService.checkRole('siteOwner'),  portfolioController.deletePortfolio);
 
 module.exports = router;

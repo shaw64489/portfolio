@@ -17,8 +17,9 @@ exports.getPortfolios = (req, res) => {
 // add and save Portfolio
 exports.savePortfolio = (req, res) => {
   const portfolioData = req.body;
+
   //get user data
-  const userId = req.user.sub;
+  const userId = req.user && req.user.sub;
   const portfolio = new Portfolio(portfolioData);
   portfolio.userId = userId;
 
@@ -31,36 +32,36 @@ exports.savePortfolio = (req, res) => {
   });
 };
 
-// // update a portfolio by id
-// exports.updatePortfolio = (req, res) => {
-//   const portfolioId = req.params.id;
-//   const portfolioData = req.body;
+// update a portfolio by id
+exports.updatePortfolio = (req, res) => {
+  const portfolioId = req.params.id;
+  const portfolioData = req.body;
 
-//   Portfolio.findById(portfolioId, (err, foundPortfolio) => {
-//     if (err) {
-//       return res.status(422).send(err);
-//     }
+  Portfolio.findById(portfolioId, (err, foundPortfolio) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
 
-//     foundPortfolio.set(portfolioData);
-//     foundPortfolio.save((err, savedPortfolio) => {
-//       if (err) {
-//         return res.status(422).send(err);
-//       }
+    foundPortfolio.set(portfolioData);
+    foundPortfolio.save((err, savedPortfolio) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
 
-//       return res.json(savedPortfolio);
-//     });
-//   });
-// };
+      return res.json(savedPortfolio);
+    });
+  });
+};
 
-// // delete a portfolio by ID
-// exports.deletePortfolio = (req, res) => {
-//   const portfolioId = req.params.id;
+// delete a portfolio by ID
+exports.deletePortfolio = (req, res) => {
+  const portfolioId = req.params.id;
 
-//   Portfolio.deleteOne({ _id: portfolioId }, (err, deletedportfolio) => {
-//     if (err) {
-//       return res.status(422).send(err);
-//     }
+  Portfolio.deleteOne({ _id: portfolioId }, (err, deletedportfolio) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
 
-//     return res.json({ status: 'DELETED' });
-//   });
-// };
+    return res.json({ status: 'DELETED' });
+  });
+};
