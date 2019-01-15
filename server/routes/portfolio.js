@@ -11,6 +11,9 @@ router.post('', authService.checkJWT, authService.checkRole('siteOwner'), portfo
 //get all Portfolios
 router.get('', portfolioController.getPortfolios);
 
+//get Portfolio by ID
+router.get('/:id', portfolioController.getPortfolioById);
+
 //update Portfolio
 router.patch('/:id', authService.checkJWT, authService.checkRole('siteOwner'),  portfolioController.updatePortfolio);
 

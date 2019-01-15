@@ -4,38 +4,37 @@ import BasePage from '../components/BasePage';
 import PortfolioCreateForm from '../components/portfolios/PortfolioCreateForm';
 import { Row, Col } from 'reactstrap';
 
-import { createPortfolio } from '../actions';
+import { updatePortfolio, getPortfolioById } from '../actions';
 
 import withAuth from '../components/hoc/withAuth';
 
 import { Router } from '../routes';
 
-const INITIAL_VALUES = {
-  title: '',
-  company: '',
-  location: '',
-  position: '',
-  description: '',
-  startDate: '',
-  endDate: ''
-};
+class PortfolioEdit extends Component {
 
-class PortfolioNew extends Component {
+  static async getInitialProps({ query }) {
+    let portfolio = {};
+    try {
+      portfolio = await getPortfolioById(query.id);
+    } catch (error) {
+      console.error(error);
+    }
+    return { portfolio };
+  }
+
   constructor(props) {
     super();
 
     this.state = {
       error: undefined
     };
-
-    this.savePortfolio = this.savePortfolio.bind(this);
+    this.updatePortfolio = this.updatePortfolio.bind(this);
   }
 
-  savePortfolio(portfolioData, { setSubmitting }) {
+  updatePortfolio(portfolioData, { setSubmitting }) {
     //disable form on form submission
     setSubmitting(true);
-
-    createPortfolio(portfolioData)
+    updatePortfolio(portfolioData)
       .then(portfolio => {
         setSubmitting(false);
         this.setState({ error: undefined });
@@ -50,18 +49,19 @@ class PortfolioNew extends Component {
 
   render() {
     const { error } = this.state;
+    const { portfolio } = this.props;
 
     return (
       <BaseLayout {...this.props.auth}>
         <BasePage
           className="portfolio-create-page"
-          title="Create New Portfolio"
+          title="Update Portfolio"
         >
           <Row>
             <Col md="6">
               <PortfolioCreateForm
-                initialValues={INITIAL_VALUES}
-                onSubmit={this.savePortfolio}
+                initialValues={portfolio}
+                onSubmit={this.updatePortfolio}
                 error={error}
               />
             </Col>
@@ -72,4 +72,4 @@ class PortfolioNew extends Component {
   }
 }
 
-export default withAuth('siteOwner')(PortfolioNew);
+export default withAuth('siteOwner')(PortfolioEdit);

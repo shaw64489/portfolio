@@ -14,6 +14,22 @@ exports.getPortfolios = (req, res) => {
   });
 };
 
+// get portfolio by ID
+exports.getPortfolioById = (req, res) => {
+  const portfolioId = req.params.id;
+
+  //find portfolio by ID - everything but dont select V property
+  Portfolio.findById(portfolioId).select('-__v').exec((err, foundPortfolio) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json(foundPortfolio);
+  });
+
+
+}
+
 // add and save Portfolio
 exports.savePortfolio = (req, res) => {
   const portfolioData = req.body;

@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import { Link } from '../routes';
-import { Col, Row, Card, CardHeader, CardBody, CardText, CardTitle } from 'reactstrap';
+import {
+  Col,
+  Row,
+  Card,
+  CardHeader,
+  CardBody,
+  CardText,
+  CardTitle,
+  Button
+} from 'reactstrap';
+
+import { Router } from '../routes';
 
 // ACTIONS
 import { getPortfolios } from '../actions';
 
 class Portfolios extends Component {
-
   static async getInitialProps() {
     let portfolios = [];
 
     try {
       // get portfolios from request
       portfolios = await getPortfolios();
-
     } catch (err) {
       console.error(err);
     }
@@ -37,12 +46,19 @@ class Portfolios extends Component {
                 <CardBody>
                   <p className="portfolio-card-city"> {portfolio.location}</p>
                   <CardTitle className="portfolio-card-title">
-                  {portfolio.company}
+                    {portfolio.company}
                   </CardTitle>
                   <CardText className="portfolio-card-text">
-                  {portfolio.description}
+                    {portfolio.description}
                   </CardText>
-                  <div className="readMore"> </div>
+                  <div className="readMore">
+                    {
+                      <React.Fragment>
+                        <Button onClick={() => Router.pushRoute(`/portfolios/${portfolio._id}/edit`)} color="warning">Edit</Button>{'  '}
+                        <Button color="danger">Delete</Button>
+                      </React.Fragment>
+                    }
+                  </div>
                 </CardBody>
               </Card>
             </span>
@@ -57,6 +73,13 @@ class Portfolios extends Component {
     return (
       <BaseLayout {...this.props.auth}>
         <BasePage className="portfolio-page" title="Portfolios">
+          <Button
+            onClick={() => Router.pushRoute('/portfolioNew')}
+            color="success"
+            className="create-port-btn"
+          >
+            Create Portfolio
+          </Button>
           <Row>{this.renderPortfolios(portfolios)}</Row>
         </BasePage>
       </BaseLayout>
