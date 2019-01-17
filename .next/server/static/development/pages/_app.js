@@ -181,6 +181,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+var nameSpace = 'http://localhost:3000';
 
 var MyApp =
 /*#__PURE__*/
@@ -210,7 +211,7 @@ function (_App) {
       var _getInitialProps = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
-        var Component, router, ctx, pageProps, user, auth;
+        var Component, router, ctx, pageProps, user, isSiteOwner, auth;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -253,16 +254,19 @@ function (_App) {
                 pageProps = _context.sent;
 
               case 16:
+                //check for user & role
+                isSiteOwner = user && user[nameSpace + '/role'] === 'siteOwner';
                 auth = {
                   user: user,
-                  isAuthenticated: !!user
+                  isAuthenticated: !!user,
+                  isSiteOwner: isSiteOwner
                 };
                 return _context.abrupt("return", {
                   pageProps: pageProps,
                   auth: auth
                 });
 
-              case 18:
+              case 19:
               case "end":
                 return _context.stop();
             }

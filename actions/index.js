@@ -68,3 +68,7 @@ export const updatePortfolio = async portfolioData => {
         return rejectPromise(error);
       });
   };
+
+ export const deletePortfolio = (portfolioId) => {
+   return axiosInstance.delete(`/portfolios/${portfolioId}`, setAuthHeader()).then(response => response.data)
+ } 
