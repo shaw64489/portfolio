@@ -258,6 +258,22 @@
       margin-bottom: 0;
       text-align: center; }
 
+@media only screen and (min-width: 991px) {
+  .blog-editor-page .editor-wrapper {
+    padding: 0 180px; } }
+
+.blog-editor-page p {
+  font-size: 20px; }
+
+.blog-editor-page blockquote {
+  border-left: 2px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 10px;
+  color: #aaa;
+  font-style: italic;
+  display: block; }
+
 .port-navbar.port-nav-base {
   width: 100%;
   z-index: 15;
@@ -285,6 +301,18 @@
 .port-navbar.port-nav-base.port-nav-default {
   padding: 30px;
   background-color: #2C3E50 !important; }
+
+.control-menu {
+  text-align: right;
+  border-bottom: 1px solid gray;
+  padding-bottom: 20px;
+  margin-bottom: 20px; }
+  .control-menu .title {
+    float: left;
+    font-weight: bold; }
+  .control-menu .status-box {
+    display: inline-block;
+    margin-right: 10px; }
 
 html,
 body {

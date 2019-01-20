@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 const BasePage = props => {
 
-  const { children, className, title } = props;
+  const { children, className, title, containerClass } = props;
 
 
   return (
 
         <div className={`base-page ${className}`}>
-          <Container>
+          <Container className={containerClass}>
             { title && <div className="page-header"><h1 className="page-header-title">{title}</h1></div>}
             {children}
           </Container>
@@ -19,7 +19,8 @@ const BasePage = props => {
 }
 
 BasePage.defaultProps = {
-  className: ''
+  className: '',
+  containerClass: ''
 }
 
 // BasePage.propTypes = {

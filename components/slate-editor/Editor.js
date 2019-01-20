@@ -1,9 +1,10 @@
 // Import React!
 import React from 'react';
 import HoverMenu from './HoverMenu';
+import ControlMenu from './ControlMenu';
 import { Editor } from 'slate-react';
 import { initialValue } from './initial-value';
-import { renderMark } from './renderers';
+import { renderMark, renderNode } from './renderers';
 
 
 // Define our SlateEditor...
@@ -52,6 +53,30 @@ export default class SlateEditor extends React.Component {
       rect.width / 2}px`
   }
 
+  //get title and subtitle
+  getTitle() {
+
+    const { value } = this.state;
+
+    const firstBlock = value.document.getBlocks().get(0);
+    const secondBlock = value.document.getBlocks().get(1);
+
+    const title = firstBlock && firstBlock.text ? firstBlock.text : 'No title';
+    const subtitle = secondBlock && secondBlock.text ? secondBlock.text : 'No subtitle';
+
+    return {
+      title,
+      subtitle
+    }
+  }
+
+  save() {
+    const { save } = this.props;
+    const headingValues = this.getTitle();
+
+    save(headingValues);
+  }
+
   // Render the editor.
   render() {
     const { isLoaded } = this.state;
@@ -61,10 +86,12 @@ export default class SlateEditor extends React.Component {
       <React.Fragment>
         {isLoaded && (
           <Editor
+            {...this.props}
             placeholder="Enter some text..."
             value={this.state.value}
             onChange={this.onChange}
             renderMark={renderMark}
+            renderNode={renderNode}
             renderEditor={this.renderEditor}
           />
         )}
@@ -76,12 +103,13 @@ export default class SlateEditor extends React.Component {
   //rendering additional components - like hover menu
   renderEditor = (props, editor, next) => {
     const children = next()
+    const { isLoading } = props;
     return (
       <React.Fragment>
+        <ControlMenu isLoading={isLoading} save={() => this.save()}></ControlMenu>
         {children}
         <HoverMenu innerRef={menu => (this.menu = menu)} editor={editor} />
       </React.Fragment>
     )
   }
-
 }
