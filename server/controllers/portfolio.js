@@ -1,17 +1,18 @@
-
 //Models
 const Portfolio = require('../models/portfolio');
 
 // get all portfolios
 exports.getPortfolios = (req, res) => {
-  // find all portfolios
-  Portfolio.find({}, (err, allPortfolios) => {
-    if (err) {
-      return res.status(422).send(err);
-    }
+  //get portfolios - ascending sort
+  Portfolio.find({})
+    .sort({ 'startDate': 1 })
+    .exec((err, allPortfolios) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
 
-    return res.json(allPortfolios);
-  });
+      return res.json(allPortfolios);
+    });
 };
 
 // get portfolio by ID
@@ -19,16 +20,16 @@ exports.getPortfolioById = (req, res) => {
   const portfolioId = req.params.id;
 
   //find portfolio by ID - everything but dont select V property
-  Portfolio.findById(portfolioId).select('-__v').exec((err, foundPortfolio) => {
-    if (err) {
-      return res.status(422).send(err);
-    }
+  Portfolio.findById(portfolioId)
+    .select('-__v')
+    .exec((err, foundPortfolio) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
 
-    return res.json(foundPortfolio);
-  });
-
-
-}
+      return res.json(foundPortfolio);
+    });
+};
 
 // add and save Portfolio
 exports.savePortfolio = (req, res) => {

@@ -24,7 +24,14 @@ class Portfolios extends Component {
     return { portfolios: portfolios.splice(0, 10) };
   }
 
-  displayDeleteWarning(portfolioId) {
+  //handle click to edit portfolio card
+  navigateToEdit(portfolioId, event) {
+    event.stopPropagation();
+    Router.pushRoute(`/portfolios/${portfolioId}/edit`)
+  }
+
+  displayDeleteWarning(portfolioId, event) {
+    event.stopPropagation();
     const isConfirm = confirm('Are you sure you want to delete portfolio?');
 
     if (isConfirm) {
@@ -54,16 +61,14 @@ class Portfolios extends Component {
             {isAuthenticated && isSiteOwner && (
               <React.Fragment>
                 <Button
-                  onClick={() =>
-                    Router.pushRoute(`/portfolios/${portfolio._id}/edit`)
-                  }
+                  onClick={(e) => this.navigateToEdit(portfolio._id, e)}
                   color="warning"
                 >
                   Edit
                 </Button>
                 {'  '}
                 <Button
-                  onClick={() => this.displayDeleteWarning(portfolio._id)}
+                  onClick={(e) => this.displayDeleteWarning(portfolio._id, e)}
                   color="danger"
                 >
                   Delete
