@@ -46,10 +46,11 @@ export const getPortfolios = async () => {
   return await axiosInstance.get(url).then(response => response.data);
 };
 
-export const getPortfolioById = async (id) => {
-
-    return await axiosInstance.get(`/portfolios/${id}`).then(response => response.data);
-}
+export const getPortfolioById = async id => {
+  return await axiosInstance
+    .get(`/portfolios/${id}`)
+    .then(response => response.data);
+};
 
 export const createPortfolio = async portfolioData => {
   return await axiosInstance
@@ -61,26 +62,40 @@ export const createPortfolio = async portfolioData => {
 };
 
 export const updatePortfolio = async portfolioData => {
-    return await axiosInstance
-      .patch(`/portfolios/${portfolioData._id}`, portfolioData, setAuthHeader())
-      .then(response => response.data)
-      .catch(error => {
-        return rejectPromise(error);
-      });
-  };
+  return await axiosInstance
+    .patch(`/portfolios/${portfolioData._id}`, portfolioData, setAuthHeader())
+    .then(response => response.data)
+    .catch(error => {
+      return rejectPromise(error);
+    });
+};
 
- export const deletePortfolio = (portfolioId) => {
-   return axiosInstance.delete(`/portfolios/${portfolioId}`, setAuthHeader()).then(response => response.data)
- } 
+export const deletePortfolio = portfolioId => {
+  return axiosInstance
+    .delete(`/portfolios/${portfolioId}`, setAuthHeader())
+    .then(response => response.data);
+};
 
+// --------------- BLOG ACTIONS ---------------- //
 
- // --------------- BLOG ACTIONS ---------------- //
+export const createBlog = (blogData, lockId) => {
+  return axiosInstance
+    .post(`/blogs?lockId=${lockId}`, blogData, setAuthHeader())
+    .then(response => response.data)
+    .catch(error => {
+      return rejectPromise(error);
+    });
+};
 
- export const saveBlog = (blogData) => {
+export const updateBlog = (blogData, blogId) => {
+  return axiosInstance
+    .patch(`/blogs/${blogId}`, blogData, setAuthHeader())
+    .then(response => response.data)
+    .catch(error => {
+      return rejectPromise(error);
+    });
+};
 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('Promise Resolved')
-    }, 1000)
-  })
- }
+export const getBlogById = blogId => {
+  return axiosInstance.get(`/blogs/${blogId}`).then(response => response.data);
+};

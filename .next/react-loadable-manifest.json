@@ -27,12 +27,26 @@
       "name": null,
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
+    },
+    {
+      "id": 8,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
     }
   ],
   "../styles/main.scss": [
     {
       "id": "./styles/main.scss",
       "name": "./styles/main.scss",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "react-toastify/dist/ReactToastify.css": [
+    {
+      "id": "./node_modules/react-toastify/dist/ReactToastify.css",
+      "name": "./node_modules/react-toastify/dist/ReactToastify.css",
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
     }

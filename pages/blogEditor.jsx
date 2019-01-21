@@ -3,10 +3,12 @@ import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 
 import withAuth from '../components/hoc/withAuth';
+import { Router } from '../routes';
 
 import SlateEditor from '../components/slate-editor/Editor';
+import { toast } from 'react-toastify';
 
-import { saveBlog } from '../actions';
+import { createBlog } from '../actions';
 
 class BlogEditor extends Component {
 
@@ -14,24 +16,34 @@ class BlogEditor extends Component {
     super(props);
 
     this.state = {
-      isSaving: false
+      isSaving: false,
+      lockId: Math.floor(1000 + Math.random() * 9000)
     }
 
     this.saveBlog = this.saveBlog.bind(this);
   }
 
-  saveBlog(heading) {
+  saveBlog(story, heading) {
 
+    const { lockId } = this.state;
     const blog = {};
     blog.title = heading.title;
-    blog.subtitle = heading.subtitle;
+    blog.subTitle = heading.subtitle;
+    blog.story = story;
     this.setState({ isSaving: true });
 
     //call actions saveBlog
-    saveBlog().then(data => {
+    createBlog(blog, lockId).then(createdBlog => {
+      toast.success('Blog Saved Successfully !');
       this.setState({ isSaving: false });
-      console.log(data);
+      Router.pushRoute(`/blogs/${createdBlog._id}/edit`);
     })
+    .catch(err => {
+      this.setState({ isSaving: false });
+      toast.error('Unexpected Error, Copy your progress and refresh value');
+      const message = err.message || 'Server Error'
+      console.error(message)
+    });
   }
 
   render() {
