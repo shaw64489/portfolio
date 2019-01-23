@@ -1,8 +1,18 @@
 //Models
 const Blog = require('../models/blog');
-
+const slugify = require('slugify');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
+
+exports.getBlogs = (req, res) => {
+  Blog.find({status: 'published'}, (err, publishedBlogs) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json(publishedBlogs)
+  });
+}
 
 // get blog by ID
 exports.getBlogById = (req, res) => {
@@ -20,6 +30,19 @@ exports.getBlogById = (req, res) => {
     });
 };
 
+// find user blogs
+exports.getUserBlogs = (req, res) => {
+  const userId = req.user.sub;
+
+  Blog.find({userId}, function(err, userBlogs){
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json(userBlogs);
+  });
+}
+
 // update a blog by id
 exports.updateBlog = (req, res) => {
   const blogId = req.params.id;
@@ -28,6 +51,15 @@ exports.updateBlog = (req, res) => {
   Blog.findById(blogId, function(err, foundBlog) {
     if (err) {
       return res.status(422).send(err);
+    }
+
+    if (blogData.status && blogData.status === 'published' && !foundBlog.slug) {
+      //create slug
+      foundBlog.slug = slugify(foundBlog.title, {
+        replacement: '-',    // replace spaces with replacement
+        remove: null,        // regex to remove characters
+        lower: true          // result in lower case
+      })
     }
     
     foundBlog.set(blogData);
@@ -85,4 +117,16 @@ exports.createBlog = (req, res) => {
     }
 };
 
+// Delete blog
+exports.deleteBlog = (req, res) => {
+  const blogId = req.params.id;
+
+  Blog.deleteOne({ _id: blogId }, (err) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json({ status: 'DELETED' });
+  });
+}
 

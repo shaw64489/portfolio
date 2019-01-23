@@ -5,10 +5,57 @@ import { Link } from '../routes';
 import moment from 'moment';
 import { Container, Row, Col } from 'reactstrap';
 
+import { getBlogs } from '../actions';
+
 class Blogs extends Component {
+
+  static async getInitialProps({ req }) {
+    let blogs = [];
+
+    try {
+      // get blogs from request
+      blogs = await getBlogs(req);
+    } catch (err) {
+      console.error(err);
+    }
+
+    return { blogs };
+  }
+
+  // iterate over all blogs to return and display each blog
+  renderBlogs = (blogs) => {
+    
+
+    return blogs.map((blog, index) => {
+      return (
+        
+            <div key={index} className="post-preview">
+              <Link route={`/blogs/${blog.slug}`}>
+                <a>
+                  <h2 className="post-title">{blog.title}</h2>
+                  <h3 className="post-subtitle">{blog.subTitle}</h3>
+                </a>
+              </Link>
+              <p className="post-meta">
+                Posted by
+                <a href="#"> {blog.author} </a>
+                {moment(blog.createdAt).format('LL')}
+              </p>
+            </div>
+      );
+    });
+  }
+
   render() {
+
+    const { blogs } = this.props;
+
     return (
-      <BaseLayout {...this.props.auth} headerType={'landing'} className="blog-listing-page">
+      <BaseLayout
+        {...this.props.auth}
+        headerType={'landing'}
+        className="blog-listing-page"
+      >
         <div
           className="masthead"
           style={{ backgroundImage: "url('/static/images/home-bg.jpg')" }}
@@ -28,63 +75,9 @@ class Blogs extends Component {
         <BasePage className="blog-body">
           <Row>
             <Col md="10" lg="8" className="mx-auto">
-              {
-                <React.Fragment>
-                  <div className="post-preview">
-                    <Link route={`/blogs/blogId`}>
-                      <a>
-                        <h2 className="post-title">Very Nice Blog Post</h2>
-                        <h3 className="post-subtitle">
-                          How I Start Porgramming...
-                        </h3>
-                      </a>
-                    </Link>
-                    <p className="post-meta">
-                      Posted by
-                      <a href="#"> Filip Jerga </a>
-                      {moment().format('LLLL')}
-                    </p>
-                  </div>
-                  <hr />
-                  <div className="post-preview">
-                    <Link route={`/blogs/blogId`}>
-                      <a>
-                        <h2 className="post-title">Very Nice Blog Post</h2>
-                        <h3 className="post-subtitle">
-                          How I Start Porgramming...
-                        </h3>
-                      </a>
-                    </Link>
-                    <p className="post-meta">
-                      Posted by
-                      <a href="#"> Filip Jerga </a>
-                      {moment().format('LLLL')}
-                    </p>
-                  </div>
-                  <hr />
-                  <div className="post-preview">
-                    <Link route={`/blogs/blogId`}>
-                      <a>
-                        <h2 className="post-title">Very Nice Blog Post</h2>
-                        <h3 className="post-subtitle">
-                          How I Start Porgramming...
-                        </h3>
-                      </a>
-                    </Link>
-                    <p className="post-meta">
-                      Posted by
-                      <a href="#"> Filip Jerga </a>
-                      {moment().format('LLLL')}
-                    </p>
-                  </div>
-                  <hr />
-                </React.Fragment>
-              }
-              <div className="clearfix">
-                <a className="btn btn-primary float-right" href="#">
-                  Older Posts &rarr;
-                </a>
-              </div>
+
+              {this.renderBlogs(blogs)}
+
             </Col>
           </Row>
 

@@ -13,7 +13,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/blogEditorUpdate": [
+    "/blogs": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/cv": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

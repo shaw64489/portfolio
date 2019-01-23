@@ -78,6 +78,18 @@ export const deletePortfolio = portfolioId => {
 
 // --------------- BLOG ACTIONS ---------------- //
 
+export const getBlogs = async (req) => {
+  const url = '/blogs';
+
+  return await axiosInstance.get(url).then(response => response.data);
+};
+
+export const getUserBlogs = async (req) => {
+  const url = '/blogs/me';
+
+  return await axiosInstance.get(url, setAuthHeader(req)).then(response => response.data);
+};
+
 export const createBlog = (blogData, lockId) => {
   return axiosInstance
     .post(`/blogs?lockId=${lockId}`, blogData, setAuthHeader())
@@ -99,3 +111,14 @@ export const updateBlog = (blogData, blogId) => {
 export const getBlogById = blogId => {
   return axiosInstance.get(`/blogs/${blogId}`).then(response => response.data);
 };
+
+
+export const deleteBlog = blogId => {
+  return axiosInstance
+    .delete(`/blogs/${blogId}`, setAuthHeader())
+    .then(response => response.data)
+    .catch(error => {
+      return rejectPromise(error);
+    });
+};
+

@@ -5,6 +5,17 @@ const blogController = require('../controllers/blog');
 //SERVICE
 const authService = require('../services/auth');
 
+//get published blogs
+router.get('', blogController.getBlogs);
+
+//get Blogs by me
+router.get(
+  '/me',
+  authService.checkJWT,
+  authService.checkRole('siteOwner'),
+  blogController.getUserBlogs
+);
+
 //get Blog by ID
 router.get('/:id', blogController.getBlogById);
 
@@ -22,6 +33,14 @@ router.patch(
   authService.checkJWT,
   authService.checkRole('siteOwner'),
   blogController.updateBlog
+);
+
+//delete Blog
+router.delete(
+  '/:id',
+  authService.checkJWT,
+  authService.checkRole('siteOwner'),
+  blogController.deleteBlog
 );
 
 module.exports = router;
