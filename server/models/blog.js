@@ -13,7 +13,8 @@ const blogSchema = new Schema({
   },
   title: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 96
   },
   subTitle: {
     type: String,

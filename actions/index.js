@@ -84,6 +84,12 @@ export const getBlogs = async (req) => {
   return await axiosInstance.get(url).then(response => response.data);
 };
 
+export const getBlogBySlug = async (slug) => {
+  const url = `/blogs/s/${slug}`;
+
+  return await axiosInstance.get(url).then(response => response.data);
+}
+
 export const getUserBlogs = async (req) => {
   const url = '/blogs/me';
 

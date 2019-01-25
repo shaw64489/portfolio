@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import PortButtonDropdown from '../components/ButtonDropdown';
 
 import withAuth from '../components/hoc/withAuth';
@@ -35,7 +35,7 @@ class UserBlogs extends Component {
     const res = confirm('Are you sure you want to delete?');
 
     if (res) {
-      this.deleteBlog(blogId)
+      this.deleteBlog(blogId);
     }
   }
 
@@ -44,7 +44,7 @@ class UserBlogs extends Component {
       .then(status => {
         Router.pushRoute('/userBlogs');
       })
-      .catch(err => console.error(err.message))
+      .catch(err => console.error(err.message));
   }
 
   seperateBlogs(blogs) {
@@ -74,7 +74,10 @@ class UserBlogs extends Component {
           onClick: () => this.changeBlogStatus(status.value, blog._id)
         }
       },
-      { text: 'Delete', handlers: { onClick: () => this.deleteBlogWarning(blog._id) } }
+      {
+        text: 'Delete',
+        handlers: { onClick: () => this.deleteBlogWarning(blog._id) }
+      }
     ];
   };
 
@@ -108,8 +111,13 @@ class UserBlogs extends Component {
             <div className="row">
               <div className="col-lg-8 col-md-10 mx-auto">
                 <div className="site-heading">
-                  <h1>Fresh Blogs</h1>
-                  <span className="subheading">Programming, travelling...</span>
+                  <h1>Blogs Dashboard</h1>
+                  <span className="subheading">
+                    Write some blogs{' '}
+                    <Link route="/blogs/new">
+                      <Button color="primary">Create New Blog</Button>
+                    </Link>
+                  </span>
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Container, Row, Col } from 'reactstrap';
 
 import { getBlogs } from '../actions';
+import { shortenText } from '../helpers/utils';
 
 class Blogs extends Component {
 
@@ -33,7 +34,7 @@ class Blogs extends Component {
               <Link route={`/blogs/${blog.slug}`}>
                 <a>
                   <h2 className="post-title">{blog.title}</h2>
-                  <h3 className="post-subtitle">{blog.subTitle}</h3>
+                  <h3 className="post-subtitle">{shortenText(blog.subTitle, 124)}</h3>
                 </a>
               </Link>
               <p className="post-meta">

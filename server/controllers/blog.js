@@ -5,12 +5,26 @@ const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 
 exports.getBlogs = (req, res) => {
-  Blog.find({status: 'published'}, (err, publishedBlogs) => {
+  Blog.find({status: 'published'})
+    .sort({ 'createdAt': -1 })
+    .exec((err, allPortfolios) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
+
+      return res.json(allPortfolios);
+    });
+};
+
+exports.getBlogBySlug = (req, res) => {
+  const slug = req.params.slug;
+
+  Blog.findOne({slug}, function(err, foundBlog) {
     if (err) {
       return res.status(422).send(err);
     }
 
-    return res.json(publishedBlogs)
+    return res.json(foundBlog);
   });
 }
 

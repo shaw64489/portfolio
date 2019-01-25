@@ -97,12 +97,13 @@ module.exports =
 /*!**************************!*\
   !*** ./helpers/utils.js ***!
   \**************************/
-/*! exports provided: getCookieFromReq */
+/*! exports provided: getCookieFromReq, shortenText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookieFromReq", function() { return getCookieFromReq; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shortenText", function() { return shortenText; });
 var getCookieFromReq = function getCookieFromReq(req, cookieKey) {
   var cookie = req.headers.cookie.split(';').find(function (c) {
     return c.trim().startsWith("".concat(cookieKey, "="));
@@ -113,6 +114,15 @@ var getCookieFromReq = function getCookieFromReq(req, cookieKey) {
   }
 
   return cookie.split('=')[1];
+};
+var shortenText = function shortenText(text) {
+  var maxLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 124;
+
+  if (text && text.length > maxLength) {
+    return "".concat(text.substring(0, maxLength), " ...");
+  }
+
+  return text;
 };
 
 /***/ }),

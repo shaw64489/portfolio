@@ -1,10 +1,4 @@
-// MIXINS
-@mixin background-cover() {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
+
 
 // Blog LISTING!
 
@@ -158,7 +152,7 @@
 }
 
 // BLOG EDITOR PAGE
-.blog-editor-page {
+.blog-editor-page, .blog-detail-page {
   @media only screen and (min-width: 991px) {
     .editor-wrapper {
       padding: 0 180px;

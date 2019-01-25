@@ -19,6 +19,9 @@ router.get(
 //get Blog by ID
 router.get('/:id', blogController.getBlogById);
 
+//get published blog detail page
+router.get('/s/:slug', blogController.getBlogBySlug);
+
 // add a blog
 router.post(
   '',
