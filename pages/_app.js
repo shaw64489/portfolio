@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
-const nameSpace = 'http://localhost:3000';
 
 export default class MyApp extends App {
 
@@ -24,7 +23,7 @@ export default class MyApp extends App {
     }
 
     //check for user & role
-    const isSiteOwner = user && user[nameSpace + '/role'] === 'siteOwner';
+    const isSiteOwner = user && user[process.env.NAMESPACE + '/role'] === 'siteOwner';
     const auth = { user, isAuthenticated: !!user, isSiteOwner };
 
     return { pageProps, auth }

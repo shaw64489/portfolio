@@ -1,7 +1,6 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 
-const namespace = 'http://localhost:3000/'
 
 //MIDDLEWARE
 //checking token validity
@@ -25,7 +24,7 @@ exports.checkRole = (role) => {
     const user = req.user;
 
     //user is authorized
-    if (user && (user[namespace + 'role'] === role)) {
+    if (user && (user[process.env.NAMESPACE + '/role'] === role)) {
       next();
     } else {
       return res.status(401).send({title: 'Not authorized', detail: 'You are not authorized to access data'})
