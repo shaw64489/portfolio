@@ -56,6 +56,7 @@ class Blogs extends Component {
         {...this.props.auth}
         headerType={'landing'}
         className="blog-listing-page"
+        title="Chris Shaw | Check Out My Newest Blogs"
       >
         <div
           className="masthead"

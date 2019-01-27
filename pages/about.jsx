@@ -6,7 +6,7 @@ import { Row, Col } from 'reactstrap';
 class About extends Component {
   render() {
     return (
-      <BaseLayout {...this.props.auth}>
+      <BaseLayout {...this.props.auth} title="Chris Shaw | Learn More About Me">
         <BasePage className="about-page">
           <Row className="mt-5">
             <Col md="6">

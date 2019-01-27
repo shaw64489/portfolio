@@ -6,20 +6,43 @@ import Typed from 'react-typed';
 // Class component
 // More functionality, Use lifecycle functions etc..
 class Index extends Component {
-
   constructor(props) {
     super(props);
 
-    this.roles = ['Developer', 'Tech Lover', 'Team Player']
+    this.state = {
+      isFlipping: false
+    };
 
+    this.roles = ['Developer', 'Tech Lover', 'Team Player'];
+  }
+
+  componentDidMount() {
+    this.animateCard();
+  }
+
+  componentWillUnmount() {
+    this.cardAnimationInterval && clearInterval(this.cardAnimationInterval);
+  }
+
+  animateCard() {
+    this.cardAnimationInterval = setInterval(() => {
+      this.setState({
+        isFlipping: !this.state.isFlipping
+      });
+    }, 10000);
   }
 
   render() {
-
     const { isAuthenticated, user } = this.props.auth;
+    const { isFlipping } = this.state;
 
     return (
-      <BaseLayout className="cover" {...this.props.auth} headerType="index">
+      <BaseLayout
+        title="Chris Shaw | Web Developer Portfolio"
+        className={`cover ${isFlipping ? 'cover-1' : 'cover-0'}`}
+        {...this.props.auth}
+        headerType="index"
+      >
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background-index.png" />
@@ -29,8 +52,8 @@ class Index extends Component {
             <Row>
               <Col md="6">
                 <div className="hero-section">
-                  <div className={`flipper`}>
-                    <div className="back">
+                  <div className={`flipper ${isFlipping ? 'isFlipping' : ''}`}>
+                    <div className="front">
                       <div className="hero-section-content">
                         <h2> Full Stack Web Developer </h2>
                         <div className="hero-section-content-intro">
@@ -45,6 +68,21 @@ class Index extends Component {
                         <div className="shadow-inner"> </div>
                       </div>
                     </div>
+                    <div className="back">
+                      <div className="hero-section-content">
+                        <h2> Worldwide Projects </h2>
+                        <div className="hero-section-content-intro">
+                          Professional Service in Web Development
+                        </div>
+                      </div>
+                      <img
+                        className="image"
+                        src="/static/images/section-2.png"
+                      />
+                      <div className="shadow-custom shadow-custom-2">
+                        <div className="shadow-inner"> </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Col>
@@ -56,7 +94,6 @@ class Index extends Component {
                   </h1>
                 </div>
                 <Typed
-                  
                   loop
                   typeSpeed={60}
                   backSpeed={60}
