@@ -9,7 +9,7 @@ exports.checkJWT = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
-    jwksRequestsPerMinute: 15,
+    jwksRequestsPerMinute: 50,
     jwksUri: 'https://shaw64489.auth0.com/.well-known/jwks.json'
   }),
   //auth0 ID
