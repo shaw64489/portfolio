@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
 const next = require('next');
 const mongoose = require('mongoose');
@@ -56,7 +57,7 @@ app
   .then(() => {
     //pass server to next app
     const server = express();
-
+    server.use(compression());
     //body parser middleware
     server.use(bodyParser.json());
 
